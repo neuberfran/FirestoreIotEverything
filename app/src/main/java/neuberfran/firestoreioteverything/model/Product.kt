@@ -11,13 +11,10 @@ class Product : Serializable {
     @get:Exclude
     var id: String? = null
     var userId: String? = null
-    var alarmstate: Boolean = true
-    var garagestate: Boolean = true
+    var alarmstate: Boolean = false
+    var garagestate: Boolean = false
 
     companion object {
-        val alarmstate : Boolean? = true
-        val garagestate : Boolean? = true
-
         val COLLECTION = "products"
         val FIELD_userId = "userId"
         val FIELD_alarmstate  = "alarmstate"

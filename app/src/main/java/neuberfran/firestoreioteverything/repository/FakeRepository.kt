@@ -3,10 +3,12 @@ package neuberfran.firestoreioteverything.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import neuberfran.firestoreioteverything.model.FireFran
 import neuberfran.firestoreioteverything.model.Product
 import java.util.*
 
@@ -54,7 +56,7 @@ class FakeRepository {
         get() = products
 
     init {
-        _currentRandomFruitName.value = Product.alarmstate
+ //       _currentRandomFruitName.value = Product.alarmstate
         mFirestore = FirebaseFirestore.getInstance()
     }
 
@@ -62,10 +64,6 @@ class FakeRepository {
         val random = Random()
         return fruitNames[random.nextInt(fruitNames.size)]
     }
-
-//    fun changeCurrentRandomFruitName() {
-//        _currentRandomFruitName.value = getRandomFruitName()
-//    }
 
     fun getProductById(productId: String): MutableLiveData<Product> {
         val liveProject = MutableLiveData<Product>()

@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 
@@ -14,19 +13,20 @@ import java.util.ArrayList
 import neuberfran.firestoreioteverything.model.Product
 
 class EstadoRepository private constructor() {
-    private val mFirestore: FirebaseFirestore
+    private val mFirestore : FirebaseFirestore
 
-    val products: MutableLiveData<List<Product>>
+    val products : MutableLiveData<List<Product>>
         get() {
             val liveProducts = MutableLiveData<List<Product>>()
 
             mFirestore.collection(Product.COLLECTION)
+
                 .whereEqualTo(Product.FIELD_userId , mFirebaseAuth!!.uid)
-       //         .orderBy(Product.FIELD_alarmstate , Query.Direction.ASCENDING)
+                .orderBy("population" , Query.Direction.ASCENDING)
                 .addSnapshotListener { snapshot , e ->
                     if (e != null) {
                         Log.w(TAG , "Listen failed." , e)
-                        return@addSnapshotListener // @mFirestore.collection(Product.Companion.COLLECTION)
+                        return@addSnapshotListener
                     }
 
                     val products = ArrayList<Product>()
@@ -34,6 +34,12 @@ class EstadoRepository private constructor() {
                         for (documentSnapshot in snapshot.documents) {
                             val product = documentSnapshot.toObject(Product::class.java)
                             product!!.id = documentSnapshot.id
+
+                            products.map { product ->
+                                product.alarmstate
+                                product.garagestate
+                            }
+
                             products.add(product)
                         }
                     }
@@ -47,7 +53,7 @@ class EstadoRepository private constructor() {
         mFirestore = FirebaseFirestore.getInstance()
     }
 
-    fun getProductById(productId: String): MutableLiveData<Product> {
+    fun getProductById(productId : String) : MutableLiveData<Product> {
         val liveProject = MutableLiveData<Product>()
 
         val docRef = mFirestore.collection(Product.COLLECTION).document(productId)
@@ -69,8 +75,8 @@ class EstadoRepository private constructor() {
         return liveProject
     }
 
-    fun saveProduct(product: Product): String {
-        val document: DocumentReference
+    fun saveProduct(product : Product) : String {
+        val document : DocumentReference
         if (product.id != null) {
             document = mFirestore.collection(Product.COLLECTION).document(product.id!!)
         } else {
@@ -82,19 +88,19 @@ class EstadoRepository private constructor() {
         return document.id
     }
 
-    fun deleteProduct(productId: String) {
+    fun deleteProduct(productId : String) {
         val docRef = mFirestore.collection(Product.COLLECTION).document(productId)
         docRef.delete()
     }
 
     companion object {
         private val TAG = "EstadoRepository"
-        private var mFirebaseAuth: FirebaseAuth? = null
+        private var mFirebaseAuth : FirebaseAuth? = null
 
-        private var instance: EstadoRepository? = null
+        private var instance : EstadoRepository? = null
 
         @Synchronized
-        fun getInstance(): EstadoRepository {
+        fun getInstance(param : (Any) -> Unit) : EstadoRepository {
             if (instance == null) {
                 instance = EstadoRepository()
                 mFirebaseAuth = FirebaseAuth.getInstance()

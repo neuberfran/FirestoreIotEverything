@@ -1,40 +1,45 @@
 package neuberfran.firestoreioteverything.viewmodel
 
-import android.os.Parcel
-import android.os.Parcelable
-import androidx.databinding.Bindable
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import neuberfran.firestoreioteverything.model.Product
-import neuberfran.firestoreioteverything.repository.FakeRepository
+import neuberfran.firestoreioteverything.repository.EstadoRepository
 
 class EstadoViewModel() : ViewModel() {
 
- //   val iotEstadoLiveData = MutableLiveData<seila<products>>()
     private var product: MutableLiveData<Product>? = null
     private var products: MutableLiveData<List<Product>>? = null
+
+    var firefrans: MutableLiveData<Boolean>? =  null //MutableLiveData(false)
 
     val allProducts: MutableLiveData<List<Product>>
         get() {
             if (products == null) {
-                products = FakeRepository.getInstance().products
+                products = Transformations.map(EstadoRepository.getInstance { xproducts ->
+                }
+                    )
+//                products = EstadoRepository.getInstance().products
             }
+
+
             return products as MutableLiveData<List<Product>>
         }
 
-    val currentRandomFruitName: MutableLiveData<List<Product>>
-        get() = FakeRepository.getInstance().currentRandomFruitName
+    val firefran : MutableLiveData<Boolean> //= MutableLiveData(false)
+        get() {
 
- //   fun onChangeRandomFruitClick() = FakeRepository.changeCurrentRandomFruitName()
+          var firefrans =     MutableLiveData(false)
 
- //   val editTextContent = MutableLiveData<String>()
+          return firefrans as MutableLiveData<Boolean>
 
-    fun getProductById(productId: String): MutableLiveData<Product> {
+        }
+
+     fun getProductById(productId: String): MutableLiveData<Product> {
         if (product == null) {
-            product = FakeRepository.getInstance().getProductById(productId)
+            product = EstadoRepository.getInstance { xproducts ->
+            }.getProductById(productId)
         }
         return product as MutableLiveData<Product>
     }
-
 }
