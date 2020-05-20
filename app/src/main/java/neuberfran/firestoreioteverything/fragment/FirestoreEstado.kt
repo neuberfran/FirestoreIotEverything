@@ -14,6 +14,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.firebase.database.FirebaseDatabase
 import neuberfran.firestoreioteverything.R
 import neuberfran.firestoreioteverything.databinding.IotEstadoBinding
 import neuberfran.firestoreioteverything.model.Product
@@ -22,7 +23,7 @@ import neuberfran.firestoreioteverything.viewmodel.EstadoViewModel
 class FirestoreEstado : Fragment() {
 
     private var iotestadoViewModel: EstadoViewModel? = null
-    
+
     lateinit var binding: IotEstadoBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -32,7 +33,7 @@ class FirestoreEstado : Fragment() {
 
         binding = IotEstadoBinding.inflate(inflater, container, false)
 
-        iotestadoViewModel!!.allProducts.observe(viewLifecycleOwner , Observer { products ->
+        iotestadoViewModel!!.hotStockLiveData.observe(viewLifecycleOwner , Observer { products ->
             if (products != null) {
                 //       productAdapter?.setProducts(products)
                 binding.setLifecycleOwner(getActivity())

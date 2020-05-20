@@ -15,9 +15,11 @@ import neuberfran.firestoreioteverything.model.Product
 class EstadoRepository private constructor() {
     private val mFirestore : FirebaseFirestore
 
+    var liveProducts = MutableLiveData<List<Product>>()
+
     val products : MutableLiveData<List<Product>>
         get() {
-            val liveProducts = MutableLiveData<List<Product>>()
+            var liveProducts = MutableLiveData<List<Product>>()
 
             mFirestore.collection(Product.COLLECTION)
 
@@ -35,10 +37,10 @@ class EstadoRepository private constructor() {
                             val product = documentSnapshot.toObject(Product::class.java)
                             product!!.id = documentSnapshot.id
 
-                            products.map { product ->
-                                product.alarmstate
-                                product.garagestate
-                            }
+//                            products.map { product ->
+//                                product.alarmstate
+//                                product.garagestate
+//                            }
 
                             products.add(product)
                         }

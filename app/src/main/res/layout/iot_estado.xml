@@ -18,7 +18,7 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text='@{viewmodel.allProducts ? "Ligado" : "Desligado"}'
+            android:text='@{viewmodel.hotStockLiveData.alarmstate ? "Ligado" : "Desligado"}'
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
