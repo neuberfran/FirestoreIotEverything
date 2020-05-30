@@ -3,10 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
         <variable
             name="viewmodel"
-            type="neuberfran.firestoreioteverything.viewmodel.EstadoViewModel"/>
+            type="neuberfran.firestoreioteverything.viewmodel.FireViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +19,7 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text='@{viewmodel.hotStockLiveData.alarmstate ? "Ligado" : "Desligado"}'
+            android:text='@{viewmodel.getFireFranById("tutorial").alarmstate ? "Ligado" : "Desligado"}'
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -24,7 +24,7 @@ import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import neuberfran.firestoreioteverything.fragment.FirestoreEstado
+import neuberfran.firestoreioteverything.fragment.FireFragment
 
 class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListener , GoogleApiClient.OnConnectionFailedListener {
 
@@ -166,7 +166,7 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
     private fun displayFragment(fragmentId: Int , arg: String? = null) {
         var fragmentClass: Class<*>
 
-        fragmentClass = FirestoreEstado::class.java
+        fragmentClass = FireFragment::class.java
 
         var fragment: Fragment? = null
 
@@ -179,7 +179,7 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
         try {
             when (fragmentId) {
                 R.id.nav_products -> {
-                    fragmentClass = FirestoreEstado::class.java
+                    fragmentClass = FireFragment::class.java
                     fragment = fragmentClass.newInstance() as Fragment
                 }
                 R.id.nav_sign_out -> {
@@ -190,7 +190,7 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
                     finish()
                 }
                 else -> {
-                    fragmentClass = FirestoreEstado::class.java
+                    fragmentClass = FireFragment::class.java
                     fragment = fragmentClass.newInstance() as Fragment
                 }
             }

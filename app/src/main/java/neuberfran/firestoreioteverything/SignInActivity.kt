@@ -70,9 +70,9 @@ class SignInActivity : AppCompatActivity() , GoogleApiClient.OnConnectionFailedL
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
-            if (result.isSuccess) {
+            if (result?.isSuccess!!) {
                 // Google Sign In was successful, authenticate with Firebase
-                val account = result.signInAccount
+                val account = result?.signInAccount
                 firebaseAuthWithGoogle(account!!)
             } else {
                 // Google Sign In failed

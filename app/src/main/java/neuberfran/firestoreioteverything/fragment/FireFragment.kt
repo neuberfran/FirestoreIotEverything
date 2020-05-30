@@ -14,41 +14,36 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.firebase.FirebaseApp
 import com.google.firebase.database.FirebaseDatabase
 import neuberfran.firestoreioteverything.R
 import neuberfran.firestoreioteverything.databinding.IotEstadoBinding
-import neuberfran.firestoreioteverything.model.Product
-import neuberfran.firestoreioteverything.viewmodel.EstadoViewModel
 
-class FirestoreEstado : Fragment() {
+import neuberfran.firestoreioteverything.model.FireFran
+import neuberfran.firestoreioteverything.viewmodel.FireViewModel
 
-    private var iotestadoViewModel: EstadoViewModel? = null
+class FireFragment : Fragment() {
 
-    lateinit var binding: IotEstadoBinding
+    private var iotestadoViewModel :FireViewModel? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    lateinit var binding :IotEstadoBinding
 
-        val iotestadoViewModel = ViewModelProviders.of(this).get(EstadoViewModel::class.java)
+    override fun onCreateView(
+        inflater :LayoutInflater , container :ViewGroup? ,
+        savedInstanceState :Bundle?
+    ) :View? {
+        val iotestadoViewModel = ViewModelProviders.of(this).get(FireViewModel::class.java)
 
-        binding = IotEstadoBinding.inflate(inflater, container, false)
+        binding = IotEstadoBinding.inflate(inflater , container , false)
 
-        iotestadoViewModel!!.hotStockLiveData.observe(viewLifecycleOwner , Observer { products ->
-            if (products != null) {
+        iotestadoViewModel!!.getFireFranById("tutorial").observe(viewLifecycleOwner , Observer { firefran ->
+            if (firefran != null) {
                 //       productAdapter?.setProducts(products)
                 binding.setLifecycleOwner(getActivity())
-      //          productAdapter?.setProducts(products)
+                //          productAdapter?.setProducts(products)
                 binding.viewmodel = iotestadoViewModel
             }
         })
-
-  //      binding.setLifecycleOwner(getActivity())
-//        binding.viewmodel = iotestadoViewModel
-
-        //Your codes here
-//        iotestadoViewModel.editTextContent.observe(this, Observer {
-//            Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
-//        })
 
         hideKeyboard()  // nao sei pra que isso
 
@@ -73,13 +68,14 @@ class FirestoreEstado : Fragment() {
             val imm = activity!!
                 .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             if (imm != null && activity!!.currentFocus != null &&
-                activity!!.currentFocus!!.windowToken != null) {
+                activity!!.currentFocus!!.windowToken != null
+            ) {
                 imm.hideSoftInputFromWindow(activity!!.currentFocus!!.windowToken , 0)
             }
         }
     }
 
     companion object {
-        private val TAG = "ProductsListFragment"
+        private val TAG = "FireFragment"
     }
 }
